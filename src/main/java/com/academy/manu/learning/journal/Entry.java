@@ -2,12 +2,7 @@ package com.academy.manu.learning.journal;
 
 import java.util.UUID;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "entries")
@@ -20,19 +15,17 @@ public class Entry {
     @Column(name = "entry")
     private String entry;
 
-    @Column(name = "author")
-    private String author;
+    @ManyToOne
+    @JoinColumn(name = "author", referencedColumnName = "username", nullable = false)
+    private User user;
 
-    @Column(name = "user_id")
-    private UUID userId;
+    public Entry() {
+    }
 
-    public Entry() {}
-
-    public Entry(String entry, String author, UUID userId, UUID id) {
-        this.entry = entry;
-        this.author = author;
-        this.userId = userId;
+    public Entry(UUID id, String entry, User user) {
         this.id = id;
+        this.entry = entry;
+        this.user = user;
     }
 
     public UUID getId() {
@@ -51,21 +44,12 @@ public class Entry {
         this.entry = entry;
     }
 
-    public String getAuthor() {
-        return author;
+
+    public User getUser() {
+        return user;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setUser(User user) {
+        this.user = user;
     }
-
-    public UUID getUserId() {
-        return userId;
-    }
-
-    public void setUserId(UUID userId) {
-        this.userId = userId;
-    }
-
-    
 }
