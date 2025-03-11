@@ -20,13 +20,13 @@ public class EntryController {
         this.userService = userService;
     }
 
-    @GetMapping
+    @GetMapping("/entries")
     public List<Entry> getEntries() {
         return entryService.findAll();
     }
 
     @PostMapping("/entries")
-    public void createEntry(@RequestBody Entry entry) {
+    public void createEntry(Entry entry) {
         entryService.addEntry(entry);
     }
 }

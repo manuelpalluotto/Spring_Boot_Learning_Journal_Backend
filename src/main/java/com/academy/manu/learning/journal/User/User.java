@@ -1,11 +1,13 @@
 package com.academy.manu.learning.journal.User;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
 import com.academy.manu.learning.journal.Entry.Entry;
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
 
 @Entity
 
@@ -68,5 +70,5 @@ public class User {
     public void setUsername(String username) {
         this.username = username;
     }
-    
+
 }

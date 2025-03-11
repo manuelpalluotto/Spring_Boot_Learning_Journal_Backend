@@ -1,5 +1,7 @@
 package com.academy.manu.learning.journal.User;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,4 +29,8 @@ public class UserService {
         userRepo.save(user);
     }
 
+    public String getLoggedInUserId() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UUID userId = auth.getId();
+    }
 }
