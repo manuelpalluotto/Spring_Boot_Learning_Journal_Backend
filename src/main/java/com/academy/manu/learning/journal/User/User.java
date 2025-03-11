@@ -1,13 +1,11 @@
-package com.academy.manu.learning.journal;
+package com.academy.manu.learning.journal.User;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.academy.manu.learning.journal.Entry.Entry;
+import jakarta.persistence.*;
 
 @Entity
 
@@ -26,6 +24,9 @@ public class User {
 
     @Column(nullable = false)
     private String username;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Entry> entries = new ArrayList<>();
 
     public User() {}
 

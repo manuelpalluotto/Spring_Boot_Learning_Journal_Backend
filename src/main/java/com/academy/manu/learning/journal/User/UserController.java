@@ -1,16 +1,14 @@
-package com.academy.manu.learning.journal;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+package com.academy.manu.learning.journal.User;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-public class JournalController {
+public class UserController {
 
     public final UserService userService;
 
-    public JournalController(UserService userService) {
+    public UserController(UserService userService) {
         this.userService = userService;
     }
 

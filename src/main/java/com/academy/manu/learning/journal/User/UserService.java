@@ -1,8 +1,10 @@
-package com.academy.manu.learning.journal;
+package com.academy.manu.learning.journal.User;
 
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class UserService {
@@ -24,4 +26,5 @@ public class UserService {
     public void save(User user) {
         userRepo.save(user);
     }
+
 }
