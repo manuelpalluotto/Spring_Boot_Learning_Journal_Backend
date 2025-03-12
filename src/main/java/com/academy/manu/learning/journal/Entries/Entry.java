@@ -1,5 +1,6 @@
 package com.academy.manu.learning.journal.Entries;
 
+import com.academy.manu.learning.journal.Person.Person;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -14,7 +15,7 @@ import lombok.*;
 public class Entry {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id", columnDefinition = "char(36)")
     private String id;
 
@@ -24,7 +25,8 @@ public class Entry {
     @Column(name = "entry")
     private String entry;
 
-    @Column(name = "user_id", columnDefinition = "char(36)")
-    private String userId;
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id", columnDefinition = "char(36)")
+    private Person user;
 
 }
