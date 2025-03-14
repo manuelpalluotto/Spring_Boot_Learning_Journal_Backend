@@ -40,11 +40,10 @@ public class WebSecurityConfig {
                         .ignoringRequestMatchers("/login")
                 )
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                        .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
                 )
                 .logout(configurer -> configurer
                         .invalidateHttpSession(true)
-                        .deleteCookies("JSESSIONID")
                         .logoutUrl("/logout")
                 );
         return http.build();
