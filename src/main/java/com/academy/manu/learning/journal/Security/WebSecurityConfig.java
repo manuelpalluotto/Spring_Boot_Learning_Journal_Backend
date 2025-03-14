@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -22,7 +23,7 @@ public class WebSecurityConfig {
 
     private final PersonRepository personRepository;
 
-    public WebSecurityConfig(PersonRepository personRepository) {
+    public WebSecurityConfig (PersonRepository personRepository) {
         this.personRepository = personRepository;
     }
 
