@@ -22,6 +22,7 @@ public class LoginController {
     public ResponseEntity<Map<String, String>> login(HttpServletRequest request) {
         HttpSession session = request.getSession(true);
         String sessionID = session.getId();
+        System.out.println("Session ID: " + session.getId());
         return ResponseEntity.ok(Map.of("sessionID", sessionID));
     }
 
