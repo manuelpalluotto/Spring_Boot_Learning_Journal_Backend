@@ -1,10 +1,10 @@
 package com.academy.manu.learning.journal.Entries;
 
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.academy.manu.learning.journal.Person.Person;
+import com.academy.manu.learning.journal.Person.PersonRepository;
+import com.academy.manu.learning.journal.Person.PersonService;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -13,9 +13,11 @@ import java.util.List;
 public class EntryController {
 
     private final EntryService entryService;
+    private final PersonService personService;
 
-    public EntryController(EntryService entryService) {
+    public EntryController(EntryService entryService, PersonRepository personRepository, PersonService personService) {
         this.entryService = entryService;
+        this.personService = personService;
     }
 
     @GetMapping
@@ -23,8 +25,8 @@ public class EntryController {
         return entryService.getEntries();
     }
 
-    @PostMapping
-    public void addEntry(Entry entry) {
-        entryService.addEntry(entry);
+    @PostMapping("/{userId}")
+    public void addEntry(@RequestBody Entry entry, @PathVariable String userId) {
+        entryService.addEntry(entry, userId);
     }
 }

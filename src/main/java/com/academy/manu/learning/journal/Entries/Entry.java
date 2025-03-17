@@ -27,6 +27,6 @@ public class Entry {
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id", columnDefinition = "char(36)")
-    private Person user;
+    private Person person;
 
 }
