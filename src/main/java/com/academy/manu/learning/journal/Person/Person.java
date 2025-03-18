@@ -1,5 +1,6 @@
 package com.academy.manu.learning.journal.Person;
 
+import com.academy.manu.learning.journal.Role;
 import jakarta.persistence.Table;
 import jakarta.persistence.*;
 import lombok.*;
@@ -28,7 +29,7 @@ public class Person {
     @Column(name = "email")
     private String email;
 
-    @Column(name = "role")
-    private String role;
+    @Enumerated(EnumType.STRING)
+    private Role role;
     //evtl auch enum
 }
