@@ -1,4 +1,4 @@
-package com.academy.manu.learning.journal;
+package com.academy.manu.learning.journal.Security;
 
 import com.academy.manu.learning.journal.Person.Person;
 import com.academy.manu.learning.journal.Person.PersonRepository;
@@ -11,22 +11,19 @@ import java.util.Optional;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
-
     private final PersonRepository personRepository;
 
     public CustomUserDetailsService(PersonRepository personRepository) {
         this.personRepository = personRepository;
     }
 
-
-
-    public UserDetails loadUserByUsername(String username) {
-        Person person = personRepository.findByUsername(username);
-        if (person == null) {
-            throw new UsernameNotFoundException(username);
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Optional<Person> personOpt = personRepository.findByUsername(username);
+        if (personOpt.isEmpty()) {
+            throw new UsernameNotFoundException("User not found with username: " + username);
         } else {
-            return new MyUserPrincipal(person);
+            return new MyUserPrincipal(personOpt.get());
         }
-
     }
 }

@@ -1,7 +1,6 @@
 package com.academy.manu.learning.journal.Security;
 
 
-import com.academy.manu.learning.journal.CustomUserDetailsService;
 import com.academy.manu.learning.journal.Person.PersonRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,44 +14,42 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfigurationSource;
 
 import java.util.List;
 
-import static org.springframework.security.config.Customizer.withDefaults;
+
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
 
     private final PersonRepository personRepository;
+    private final JwtService jwtService;
 
-    public WebSecurityConfig (PersonRepository personRepository) {
+    public WebSecurityConfig(PersonRepository personRepository, JwtService jwtService) {
+        this.jwtService = jwtService;
         this.personRepository = personRepository;
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, CorsConfigurationSource corsConfigurationSource) throws Exception {
         http
 
+                .csrf(csrf -> csrf.disable()
+                )
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
                                 .requestMatchers("/auth/login").permitAll()
                                 .requestMatchers("/auth/register").permitAll()
                                 .anyRequest().authenticated()
                 )
-                .csrf(csrf -> csrf
-                        .ignoringRequestMatchers("/login")
-                )
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
-                .securityContext(securityContext -> securityContext
-                        .requireExplicitSave(false))
-
-                .logout(configurer -> configurer
-                        .invalidateHttpSession(true)
-                        .logoutUrl("/logout")
+                .authenticationProvider(authenticationProvider())
+                .addFilterBefore(jwtAuthFilter(), UsernamePasswordAuthenticationFilter.class
                 );
         return http.build();
     }
@@ -68,9 +65,9 @@ public class WebSecurityConfig {
     }
 
     @Bean
-    public DaoAuthenticationProvider authenticationProvider(CustomUserDetailsService customUserDetailsService) {
+    public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
-        auth.setUserDetailsService(customUserDetailsService);
+        auth.setUserDetailsService(userDetailsService());
         auth.setPasswordEncoder(passwordEncoder());
         return auth;
     }
@@ -81,5 +78,10 @@ public class WebSecurityConfig {
         authProvider.setUserDetailsService(userDetailsService());
         authProvider.setPasswordEncoder(passwordEncoder());
         return new ProviderManager(List.of(authProvider));
+    }
+
+    @Bean
+    public JwtAuthFilter jwtAuthFilter() {
+        return new JwtAuthFilter(jwtService, userDetailsService());
     }
 }

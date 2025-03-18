@@ -3,40 +3,47 @@ package com.academy.manu.learning.journal.Security;
 import com.academy.manu.learning.journal.Person.Person;
 import com.academy.manu.learning.journal.Person.PersonRepository;
 import com.academy.manu.learning.journal.Role;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
 
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
+    private final JwtService jwtService;
     private final PersonRepository personRepo;
     private final PasswordEncoder passwordEncoder;
+    private final AuthenticationManager authMan;
 
-    public AuthController(PersonRepository personRepo, PasswordEncoder passwordEncoder) {
+    public AuthController(JwtService jwtService, PersonRepository personRepo, PasswordEncoder passwordEncoder, AuthenticationManager authMan) {
+        this.jwtService = jwtService;
         this.personRepo = personRepo;
         this.passwordEncoder = passwordEncoder;
+        this.authMan = authMan;
     }
 
     @PostMapping("/register")
-    public String register(@RequestBody Person person) {
+    public ResponseEntity<String> register(@RequestBody Person person) {
         person.setPassword(passwordEncoder.encode(person.getPassword()));
         person.setRole(Role.ROLE_USER);
         personRepo.save(person);
-        return "User registered successfully";
+        return ResponseEntity.ok("User registered successfully");
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody LoginRequest request) {
-        Person person = personRepo.findByUsername(request.getUsername());
-
-        if (person != null && passwordEncoder.matches(request.getPassword(), person.getPassword())) {
-            return JwtUtil.generateToken(person.getUsername());
-        }
-    return "Invalid credentials";
+    public ResponseEntity<Map<String, String>> login(@RequestBody LoginRequest request) {
+        authMan.authenticate(UsernamePasswordAuthenticationToken.unauthenticated(request.getUsername(), request.getPassword()));
+        Person person = personRepo.findByUsername(request.getUsername())
+                .orElseThrow();
+        String token = JwtService.generateToken(person);
+        return ResponseEntity.ok(Map.of("token", token));
     }
-
 }
