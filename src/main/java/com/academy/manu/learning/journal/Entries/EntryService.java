@@ -3,6 +3,9 @@ package com.academy.manu.learning.journal.Entries;
 import com.academy.manu.learning.journal.Person.Person;
 import com.academy.manu.learning.journal.Person.PersonService;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -17,11 +20,11 @@ public class EntryService {
         this.personService = personService;
     }
 
-    public void addEntry(Entry entry, String userId) {
-        Person person = personService.findById(entry.getPerson().getId());
-        entry.setPerson(person);
+    public void addEntry(Entry entry,@RequestParam String userId) {
         entryRepository.save(entry);
     }
+
+
 
     public List<Entry> getEntries() {
         return entryRepository.findAll();

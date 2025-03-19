@@ -25,8 +25,9 @@ public class EntryController {
         return entryService.getEntries();
     }
 
-    @PostMapping("/{userId}")
-    public void addEntry(@RequestBody Entry entry, @PathVariable String userId) {
+    @PostMapping()
+    public void addEntry(@RequestBody Entry entry) {
+        String userId = entry.getPerson().getId(); // `userId` aus dem Entry-Objekt extrahieren
         entryService.addEntry(entry, userId);
     }
 }

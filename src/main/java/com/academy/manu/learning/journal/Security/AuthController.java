@@ -16,7 +16,7 @@ import java.util.Map;
 
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/")
 public class AuthController {
     private final JwtService jwtService;
     private final PersonRepository personRepo;
@@ -44,6 +44,7 @@ public class AuthController {
         Person person = personRepo.findByUsername(request.getUsername())
                 .orElseThrow();
         String token = JwtService.generateToken(person);
+        System.out.println(token);
         return ResponseEntity.ok(Map.of("token", token));
     }
 }
