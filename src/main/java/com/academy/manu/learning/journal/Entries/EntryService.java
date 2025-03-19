@@ -20,7 +20,7 @@ public class EntryService {
         this.personService = personService;
     }
 
-    public void addEntry(Entry entry,@RequestParam String userId) {
+    public void addEntry(Entry entry) {
         entryRepository.save(entry);
     }
 

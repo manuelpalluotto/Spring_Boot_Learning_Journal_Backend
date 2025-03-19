@@ -25,9 +25,12 @@ public class EntryController {
         return entryService.getEntries();
     }
 
-    @PostMapping()
-    public void addEntry(@RequestBody Entry entry) {
-        String userId = entry.getPerson().getId(); // `userId` aus dem Entry-Objekt extrahieren
-        entryService.addEntry(entry, userId);
+    @PostMapping
+    public void addEntry(@RequestBody EntryDTO entryDTO) {
+        if (entryDTO.getUserId() == null || entryDTO.getUserId().isEmpty()) {
+            throw new IllegalArgumentException("userId is required");
+        }
+        Entry entry = entryDTO.toEntity(personService);
+        entryService.addEntry(entry);
     }
 }

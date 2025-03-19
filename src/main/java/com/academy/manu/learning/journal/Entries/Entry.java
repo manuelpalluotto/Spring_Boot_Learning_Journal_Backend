@@ -25,8 +25,13 @@ public class Entry {
     @Column(name = "entry")
     private String entry;
 
+
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id", columnDefinition = "char(36)")
     private Person person;
+
+    public String getUserId() {
+        return person != null ? person.getId() : null;
+    }
 
 }
