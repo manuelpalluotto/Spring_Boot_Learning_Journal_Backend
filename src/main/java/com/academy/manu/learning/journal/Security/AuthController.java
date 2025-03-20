@@ -1,6 +1,6 @@
 package com.academy.manu.learning.journal.Security;
 
-import com.academy.manu.learning.journal.Classrooms;
+//import com.academy.manu.learning.journal.Classrooms;
 import com.academy.manu.learning.journal.Person.Person;
 import com.academy.manu.learning.journal.Person.PersonDTO;
 import com.academy.manu.learning.journal.Person.PersonRepository;
@@ -40,9 +40,9 @@ public class AuthController {
                 .role(
                         personDTO.role().equals("ROLE_ADMIN") ? Role.ROLE_ADMIN : Role.ROLE_USER
                 )
-                .classroom(
-                        personDTO.classroom().equals("TEACHER") ? Classrooms.TEACHER : Classrooms.STUDENT
-                )
+//                .classroom(
+//                        personDTO.classroom().equals("TEACHER") ? Classrooms.TEACHER : Classrooms.STUDENT
+//                )
                 .build();
         personRepo.save(person);
         return ResponseEntity.ok("User registered successfully");
