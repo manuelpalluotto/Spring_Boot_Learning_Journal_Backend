@@ -1,5 +1,6 @@
 package com.academy.manu.learning.journal.Person;
 
+import com.academy.manu.learning.journal.Classrooms;
 import com.academy.manu.learning.journal.Role;
 import jakarta.persistence.Table;
 import jakarta.persistence.*;
@@ -36,6 +37,9 @@ public class Person implements UserDetails {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @Enumerated(EnumType.STRING)
+    private Classrooms classroom;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

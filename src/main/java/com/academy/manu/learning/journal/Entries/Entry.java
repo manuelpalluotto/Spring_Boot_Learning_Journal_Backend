@@ -25,6 +25,8 @@ public class Entry {
     @Column(name = "entry")
     private String entry;
 
+    @Column(name = "timestamp")
+    private String timestamp;
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id", columnDefinition = "char(36)")

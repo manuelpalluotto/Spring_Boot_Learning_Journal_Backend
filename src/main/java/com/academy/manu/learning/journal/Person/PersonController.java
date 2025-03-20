@@ -1,15 +1,11 @@
 package com.academy.manu.learning.journal.Person;
 
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/users")
 public class PersonController {
     private final PersonService personService;
 
@@ -17,15 +13,9 @@ public class PersonController {
         this.personService = personService;
     }
 
-    @GetMapping
+    @GetMapping("/users")
     public List<Person> getAllUsers() {
         return personService.getAllUsers();
     }
-
-    @PostMapping
-    public void addUser(Person person) {
-        personService.addUser(person);
-    }
-
 
 }

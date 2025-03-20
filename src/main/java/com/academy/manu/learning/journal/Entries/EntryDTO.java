@@ -21,6 +21,7 @@ public class EntryDTO {
         return Entry.builder()
                 .author(author)
                 .entry(entry)
+                .timestamp(String.valueOf(System.currentTimeMillis()))
                 .person(person)
                 .build();
     }

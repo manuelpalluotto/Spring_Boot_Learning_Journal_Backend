@@ -1,6 +1,8 @@
 package com.academy.manu.learning.journal.Security;
 
+import com.academy.manu.learning.journal.Classrooms;
 import com.academy.manu.learning.journal.Person.Person;
+import com.academy.manu.learning.journal.Person.PersonDTO;
 import com.academy.manu.learning.journal.Person.PersonRepository;
 import com.academy.manu.learning.journal.Role;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +18,6 @@ import java.util.Map;
 
 
 @RestController
-@RequestMapping("/")
 public class AuthController {
     private final JwtService jwtService;
     private final PersonRepository personRepo;
@@ -31,9 +32,18 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody Person person) {
-        person.setPassword(passwordEncoder.encode(person.getPassword()));
-        person.setRole(Role.ROLE_USER);
+    public ResponseEntity<String> register(@RequestBody PersonDTO personDTO) {
+        Person person = Person.builder()
+                .username(personDTO.username())
+                .password(personDTO.password())
+                .email(personDTO.email())
+                .role(
+                        personDTO.role().equals("ROLE_ADMIN") ? Role.ROLE_ADMIN : Role.ROLE_USER
+                )
+                .classroom(
+                        personDTO.classroom().equals("TEACHER") ? Classrooms.TEACHER : Classrooms.STUDENT
+                )
+                .build();
         personRepo.save(person);
         return ResponseEntity.ok("User registered successfully");
     }
