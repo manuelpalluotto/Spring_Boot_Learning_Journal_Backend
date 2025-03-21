@@ -41,6 +41,9 @@ public class Person implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Classrooms classroom;
 
+    @Column(name = "verified")
+    private boolean verified = false;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(() -> "ROLE_" + role);
