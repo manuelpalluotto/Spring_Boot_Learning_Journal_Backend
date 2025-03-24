@@ -53,6 +53,7 @@ public class WebSecurityConfig {
                         authorizeRequests
                                 .requestMatchers("/login").permitAll()
                                 .requestMatchers("/register").permitAll()
+                                .requestMatchers("/verify").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
