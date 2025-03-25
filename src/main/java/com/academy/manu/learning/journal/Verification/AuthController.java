@@ -69,12 +69,12 @@ public class AuthController {
         if (!person.isVerified()) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN)
                     .body(Map.of("error", "Email not verified"));
+        } else {
+            String token = JwtService.generateToken(person);
+            authMan.authenticate(UsernamePasswordAuthenticationToken.unauthenticated(request.getUsername(), request.getPassword()));
+            return ResponseEntity.ok(Map.of("token", token));
         }
 
-        authMan.authenticate(UsernamePasswordAuthenticationToken.unauthenticated(request.getUsername(), request.getPassword()));
-
-        String token = JwtService.generateToken(person);
-        return ResponseEntity.ok(Map.of("token", token));
     }
 
     @GetMapping("/verify")
