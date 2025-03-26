@@ -70,8 +70,10 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN)
                     .body(Map.of("error", "Email not verified"));
         } else {
+            authMan.authenticate( UsernamePasswordAuthenticationToken.unauthenticated(request.getUsername(), request.getPassword()) );
+            person.setVerified(true);
+            personRepo.save(person);
             String token = JwtService.generateToken(person);
-            authMan.authenticate(UsernamePasswordAuthenticationToken.unauthenticated(request.getUsername(), request.getPassword()));
             return ResponseEntity.ok(Map.of("token", token));
         }
 
@@ -89,5 +91,10 @@ public class AuthController {
         verificationTokenRepo.delete(verificationToken);
 
         return ResponseEntity.ok("Email verified successfully. You can now login.");
+    }
+
+    @GetMapping("/logout")
+    public ResponseEntity<String> logout() {
+        return ResponseEntity.ok("Logged out successfully");
     }
 }

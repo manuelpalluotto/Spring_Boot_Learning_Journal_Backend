@@ -2,13 +2,12 @@ package com.academy.manu.learning.journal.Security;
 
 
 import com.academy.manu.learning.journal.Person.PersonRepository;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -33,6 +32,7 @@ public class WebSecurityConfig {
     public WebSecurityConfig(PersonRepository personRepository, JwtService jwtService) {
         this.jwtService = jwtService;
         this.personRepository = personRepository;
+
     }
 
     @Bean
@@ -55,6 +55,10 @@ public class WebSecurityConfig {
                                 .requestMatchers("/register").permitAll()
                                 .requestMatchers("/verify").permitAll()
                                 .anyRequest().authenticated()
+                )
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessHandler( (request, response, authentication) -> response.setStatus(HttpServletResponse.SC_OK))
                 )
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
