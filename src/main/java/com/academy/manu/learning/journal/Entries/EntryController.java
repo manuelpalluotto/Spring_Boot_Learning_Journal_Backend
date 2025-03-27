@@ -33,4 +33,10 @@ public class EntryController {
         Entry entry = entryDTO.toEntity(personService);
         entryService.addEntry(entry);
     }
+
+    @PutMapping
+    public void updateEntry(@RequestBody EntryDTO entrydto) {
+        entryService.updateEntry(entrydto);
+        System.out.println("sadf");
+    }
 }

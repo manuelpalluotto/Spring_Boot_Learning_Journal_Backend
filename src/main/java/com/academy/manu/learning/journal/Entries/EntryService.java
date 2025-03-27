@@ -1,13 +1,10 @@
 package com.academy.manu.learning.journal.Entries;
 
-import com.academy.manu.learning.journal.Person.Person;
 import com.academy.manu.learning.journal.Person.PersonService;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EntryService {
@@ -29,4 +26,34 @@ public class EntryService {
     public List<Entry> getEntries() {
         return entryRepository.findAll();
     }
+
+    public void updateEntry(EntryDTO entrydto) {
+
+        String entryID = entrydto.getId();
+
+        Optional<Entry> entry = entryRepository.findById(entryID);
+        if (entry.isPresent()) {
+
+
+            Entry updatedEntry = entry.get();
+
+
+            updatedEntry.setAuthor(entrydto.getAuthor());
+            updatedEntry.setEntry(entrydto.getEntry());
+            updatedEntry.setTimestamp(String.valueOf(System.currentTimeMillis()));
+            entryRepository.save(updatedEntry);
+
+
+        } else {
+            throw new IllegalArgumentException("Entry not found");
+
+        }
+
+    }
+
+
+
+
+
+
 }

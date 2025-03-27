@@ -9,8 +9,10 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EntryDTO {
+    private String id;
     private String author;
     private String entry;
+    private String timestamp;
     private String userId;
 
     public Entry toEntity(PersonService personService) {
@@ -18,6 +20,8 @@ public class EntryDTO {
         if (person == null) {
             throw new IllegalArgumentException("Invalid userId: Person not found");
         }
+
+
         return Entry.builder()
                 .author(author)
                 .entry(entry)
