@@ -23,6 +23,7 @@ public class EntryController {
     @GetMapping
     public List<Entry> getEntries() {
         return entryService.getEntries();
+    //s
     }
 
     @PostMapping
