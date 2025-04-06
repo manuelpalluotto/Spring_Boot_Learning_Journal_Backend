@@ -15,7 +15,7 @@ public class EntryController {
     private final EntryService entryService;
     private final PersonService personService;
 
-    public EntryController(EntryService entryService, PersonRepository personRepository, PersonService personService) {
+    public EntryController(EntryService entryService, PersonService personService) {
         this.entryService = entryService;
         this.personService = personService;
     }
@@ -23,7 +23,6 @@ public class EntryController {
     @GetMapping
     public List<Entry> getEntries() {
         return entryService.getEntries();
-    //s
     }
 
     @PostMapping
@@ -38,6 +37,5 @@ public class EntryController {
     @PutMapping
     public void updateEntry(@RequestBody EntryDTO entrydto) {
         entryService.updateEntry(entrydto);
-        System.out.println("sadf");
     }
 }

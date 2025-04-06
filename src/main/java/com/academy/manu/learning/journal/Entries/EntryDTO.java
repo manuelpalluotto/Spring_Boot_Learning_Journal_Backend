@@ -1,6 +1,7 @@
 package com.academy.manu.learning.journal.Entries;
 import com.academy.manu.learning.journal.Person.Person;
 import com.academy.manu.learning.journal.Person.PersonService;
+import com.academy.manu.learning.journal.Security.JwtService;
 import lombok.*;
 
 @Getter
@@ -8,7 +9,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class EntryDTO {
+public class EntryDTO extends JwtService {
     private String id;
     private String author;
     private String entry;

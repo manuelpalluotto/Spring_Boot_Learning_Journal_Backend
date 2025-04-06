@@ -51,10 +51,10 @@ public class WebSecurityConfig {
                 }))
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
-                                .requestMatchers("/login").permitAll()
-                                .requestMatchers("/register").permitAll()
-                                .requestMatchers("/verify").permitAll()
-                                .anyRequest().authenticated()
+//                                .requestMatchers("/login").permitAll()
+//                                .requestMatchers("/register").permitAll()
+//                                .requestMatchers("/verify").permitAll()
+                                .anyRequest().permitAll()
                 )
                 .logout(logout -> logout
                         .logoutUrl("/logout")
