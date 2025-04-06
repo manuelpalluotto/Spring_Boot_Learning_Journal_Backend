@@ -29,5 +29,6 @@ public class EntryDTO extends JwtService {
                 .timestamp(String.valueOf(System.currentTimeMillis()))
                 .person(person)
                 .build();
-    }
+    } //   /usr/lib/jvm/java-21-openjdk-amd64/bin/java
+
 }
